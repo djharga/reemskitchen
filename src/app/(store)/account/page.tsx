@@ -104,7 +104,7 @@ export default async function AccountPage({
             </span>
           </p>
           <Link
-            href={`/order/${order.order_number}?email=${encodeURIComponent(order.customer_email)}`}
+            href={`/order/${order.order_number}?email=${encodeURIComponent(order.email)}`}
             className="btn-secondary mt-3"
           >
             View full order details

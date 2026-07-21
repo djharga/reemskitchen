@@ -42,8 +42,8 @@ export default async function OrderConfirmationPage({
             </span>
           </p>
           <p className="text-sm text-cocoa-soft">
-            A confirmation was recorded for {order.customer_email}. Please keep
-            your order number handy at pickup.
+            A confirmation was recorded for {order.email}. Please keep your
+            order number handy at pickup.
           </p>
         </div>
 

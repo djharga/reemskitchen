@@ -58,7 +58,7 @@ export async function createOrder(
     .from("products")
     .select("*, variants:product_variants(*)")
     .in("id", productIds)
-    .eq("is_active", true);
+    .eq("is_published", true);
 
   const productMap = new Map((products ?? []).map((p) => [p.id, p]));
   let subtotal = 0;

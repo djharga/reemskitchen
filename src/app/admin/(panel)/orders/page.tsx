@@ -36,7 +36,7 @@ export default async function AdminOrdersPage({
   if (status) query = query.eq("status", status);
   if (searchParams.q) {
     query = query.or(
-      `order_number.ilike.%${searchParams.q}%,customer_name.ilike.%${searchParams.q}%,customer_email.ilike.%${searchParams.q}%`,
+      `order_number.ilike.%${searchParams.q}%,customer_name.ilike.%${searchParams.q}%,email.ilike.%${searchParams.q}%`,
     );
   }
   const { data: orders } = await query;
@@ -137,9 +137,7 @@ export default async function AdminOrdersPage({
                     </td>
                     <td className="px-4 py-3">
                       <p className="font-medium">{o.customer_name}</p>
-                      <p className="text-xs text-cocoa-soft">
-                        {o.customer_email}
-                      </p>
+                      <p className="text-xs text-cocoa-soft">{o.email}</p>
                     </td>
                     <td className="px-4 py-3 text-cocoa-soft">
                       {schedule

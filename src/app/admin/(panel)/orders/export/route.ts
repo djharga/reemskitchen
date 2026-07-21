@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
   let query = supabase
     .from("orders")
     .select(
-      "order_number, status, created_at, customer_name, customer_email, customer_phone, total_cents, discount_cents, discount_code, has_unpriced_items, payment_method, payment_status, customer_note, schedule:market_schedules(market_date, location:locations(name))",
+      "order_number, status, created_at, customer_name, email, phone, total_cents, discount_cents, discount_code, has_unpriced_items, payment_method, payment_status, customer_notes, schedule:market_schedules(market_date, location:locations(name))",
     )
     .order("created_at", { ascending: false });
   if (status) query = query.eq("status", status);
@@ -68,8 +68,8 @@ export async function GET(request: NextRequest) {
       o.status,
       o.created_at,
       o.customer_name,
-      o.customer_email,
-      o.customer_phone,
+      o.email,
+      o.phone,
       schedule?.market_date ?? "",
       location?.name ?? "",
       (o.total_cents / 100).toFixed(2),
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
       o.has_unpriced_items ? "yes" : "no",
       o.payment_method,
       o.payment_status,
-      o.customer_note ?? "",
+      o.customer_notes ?? "",
     ]
       .map(csvEscape)
       .join(",");

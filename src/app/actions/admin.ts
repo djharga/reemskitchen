@@ -423,7 +423,7 @@ export async function updateOrderAdminNote(
     const { supabase } = await requireAdmin();
     const { error } = await supabase
       .from("orders")
-      .update({ admin_note: note || null })
+      .update({ admin_notes: note || null })
       .eq("id", id);
     if (error) throw new Error(error.message);
     revalidatePath("/admin/orders");
@@ -515,6 +515,7 @@ export async function saveSettings(input: unknown): Promise<ActionResult> {
         payment_stripe_enabled: data.stripeEnabled,
         payment_methods_text: data.paymentMethodsText || null,
         pickup_policy: data.pickupPolicy || null,
+        discounts_enabled: data.discountsEnabled ?? false,
         seo_title: data.seoTitle || null,
         seo_description: data.seoDescription || null,
         brand_colors: data.brandColors ?? {},

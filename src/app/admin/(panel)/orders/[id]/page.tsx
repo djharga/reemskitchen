@@ -71,8 +71,8 @@ export default async function AdminOrderDetailPage({
           <div>
             <h2 className="mb-1 font-semibold">Customer</h2>
             <p className="text-sm">{order.customer_name}</p>
-            <p className="text-sm text-cocoa-soft">{order.customer_email}</p>
-            <p className="text-sm text-cocoa-soft">{order.customer_phone}</p>
+            <p className="text-sm text-cocoa-soft">{order.email}</p>
+            <p className="text-sm text-cocoa-soft">{order.phone}</p>
           </div>
           <div>
             <h2 className="mb-1 font-semibold">Pickup</h2>
@@ -144,18 +144,18 @@ export default async function AdminOrderDetailPage({
             : "Pay at pickup"}{" "}
           · <span className="capitalize">{order.payment_status}</span>
         </p>
-        {order.customer_note ? (
+        {order.customer_notes ? (
           <div className="mt-4 rounded bg-cream-deep px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-cocoa-soft">
               Customer note
             </p>
-            <p className="mt-1 text-sm">{order.customer_note}</p>
+            <p className="mt-1 text-sm">{order.customer_notes}</p>
           </div>
         ) : null}
       </div>
 
       <div className="card p-5 print:hidden">
-        <OrderAdminNote orderId={order.id} note={order.admin_note} />
+        <OrderAdminNote orderId={order.id} note={order.admin_notes} />
       </div>
     </div>
   );

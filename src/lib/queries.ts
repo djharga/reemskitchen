@@ -40,9 +40,12 @@ export const getSettings = cache(async (): Promise<SiteSettings> => {
       instagram_url: null,
       facebook_url: null,
       currency: "CAD",
-      tax_rate: 0,
-      payment_pay_at_pickup: true,
+      tax_rate_percent: 0,
+      payment_pay_at_pickup_enabled: true,
       payment_stripe_enabled: false,
+      payment_methods_text: null,
+      pickup_policy: null,
+      discounts_enabled: false,
       announcement_text: null,
       announcement_href: "/find-us",
       seo_title: null,
@@ -78,7 +81,7 @@ export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
   const { data } = await supabase
     .from("products")
     .select(PRODUCT_SELECT)
-    .eq("is_active", true)
+    .eq("is_published", true)
     .eq("is_featured", true)
     .order("created_at", { ascending: false })
     .limit(limit);
@@ -90,7 +93,7 @@ export async function getVeganProducts(limit = 4): Promise<Product[]> {
   const { data } = await supabase
     .from("products")
     .select(PRODUCT_SELECT)
-    .eq("is_active", true)
+    .eq("is_published", true)
     .eq("is_vegan", true)
     .order("is_featured", { ascending: false })
     .limit(limit);
@@ -103,7 +106,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .from("products")
     .select(PRODUCT_SELECT)
     .eq("slug", slug)
-    .eq("is_active", true)
+    .eq("is_published", true)
     .maybeSingle();
   return data ? sortJoins(data as Product) : null;
 }
@@ -116,7 +119,7 @@ export async function getRelatedProducts(
   let query = supabase
     .from("products")
     .select(PRODUCT_SELECT)
-    .eq("is_active", true)
+    .eq("is_published", true)
     .neq("id", product.id)
     .limit(limit);
   if (product.category_id) query = query.eq("category_id", product.category_id);
@@ -144,7 +147,7 @@ export async function getProducts(filters: ShopFilters): Promise<Product[]> {
   let query = supabase
     .from("products")
     .select(PRODUCT_SELECT)
-    .eq("is_active", true);
+    .eq("is_published", true);
 
   if (filters.q) {
     const term = `%${filters.q.replace(/[%_]/g, "")}%`;

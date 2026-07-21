@@ -32,6 +32,10 @@ Nothing is hard-coded.
    1. `supabase/migrations/0001_schema.sql` — tables, triggers, RLS policies, storage buckets.
    2. `supabase/migrations/0002_seed.sql` — settings row, homepage content, 6 categories and
       16 demo products (all flagged `is_demo`, all prices intentionally empty).
+   3. `supabase/migrations/0003_align_columns.sql` — **only for databases created with an
+      older copy of `0001_schema.sql`** (renames `is_active`→`is_published` on products,
+      `hours_note`→`hours_text` on locations, and updates `site_settings` columns).
+      Fresh installs of the current schema can skip this file.
 3. Storage buckets (`product-images`, `category-images`, `location-images`, `brand`) are
    created by the schema migration with public-read / admin-write policies.
 
@@ -121,7 +125,7 @@ src/
     supabase/       # Browser / server / service-role clients + session middleware
     i18n/           # Locale scaffolding (en active; ar RTL & fr ready, hidden until translated)
     queries.ts, validation.ts (Zod), utils.ts, types.ts
-supabase/migrations/  # 0001 schema + RLS, 0002 seed
+supabase/migrations/  # 0001 schema + RLS, 0002 seed, 0003 column alignment
 ```
 
 - **Security**: RLS on every table (public sees only published data; writes require the

@@ -66,6 +66,9 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
   const [stripeEnabled, setStripeEnabled] = useState(
     settings.payment_stripe_enabled ?? false,
   );
+  const [discountsEnabled, setDiscountsEnabled] = useState(
+    settings.discounts_enabled ?? false,
+  );
   const [paymentMethodsText, setPaymentMethodsText] = useState(
     settings.payment_methods_text ?? "",
   );
@@ -98,6 +101,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
       taxRatePercent: Number(taxRatePercent) || 0,
       payAtPickupEnabled,
       stripeEnabled,
+      discountsEnabled,
       paymentMethodsText,
       pickupPolicy,
       seoTitle,
@@ -300,6 +304,14 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
             buttons.
           </p>
         </div>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={discountsEnabled}
+            onChange={(e) => setDiscountsEnabled(e.target.checked)}
+          />
+          Discount codes enabled at checkout
+        </label>
         <div>
           <label htmlFor="st-paytext" className="label">
             Payment methods text (footer)

@@ -90,7 +90,7 @@ create table public.products (
   is_vegan boolean not null default false,
   is_vegetarian boolean not null default false,
   is_featured boolean not null default false,
-  is_active boolean not null default true,
+  is_published boolean not null default true,
   is_sold_out boolean not null default false,
   available_this_week boolean not null default true,
   -- stock_quantity null = "not tracked" (made fresh per market)
@@ -104,7 +104,7 @@ create table public.products (
   updated_at timestamptz not null default now()
 );
 create index idx_products_category on public.products (category_id);
-create index idx_products_active on public.products (is_active);
+create index idx_products_published on public.products (is_published);
 create trigger trg_products_updated before update on public.products
   for each row execute function public.set_updated_at();
 
@@ -141,7 +141,7 @@ create table public.locations (
   map_url text,
   phone text,
   image_url text,
-  hours_note text,              -- e.g. "Saturdays 9am-2pm"
+  hours_text text,              -- e.g. "Saturdays 9am-2pm"
   pickup_instructions text,
   is_active boolean not null default true,
   sort_order int not null default 0,
@@ -275,9 +275,12 @@ create table public.site_settings (
   instagram_url text,
   facebook_url text,
   currency text not null default 'CAD',
-  tax_rate numeric(5,4) not null default 0, -- e.g. 0.05 for GST if applicable
-  payment_pay_at_pickup boolean not null default true,
+  tax_rate_percent numeric(6,3) not null default 0, -- e.g. 5 for 5% GST
+  payment_pay_at_pickup_enabled boolean not null default true,
   payment_stripe_enabled boolean not null default false,
+  payment_methods_text text,    -- e.g. "Pay at pickup - Cash - Card"
+  pickup_policy text,
+  discounts_enabled boolean not null default false,
   announcement_text text,
   announcement_href text default '/find-us',
   seo_title text,
@@ -355,7 +358,7 @@ create policy "profiles_admin_write" on public.profiles for update
 create policy "categories_public_read" on public.categories for select
   using (is_visible = true or public.is_admin());
 create policy "products_public_read" on public.products for select
-  using (is_active = true or public.is_admin());
+  using (is_published = true or public.is_admin());
 create policy "product_images_public_read" on public.product_images for select using (true);
 create policy "product_variants_public_read" on public.product_variants for select using (true);
 create policy "locations_public_read" on public.locations for select

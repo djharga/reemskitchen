@@ -53,7 +53,7 @@ export type Product = {
   is_vegan: boolean;
   is_vegetarian: boolean;
   is_featured: boolean;
-  is_active: boolean;
+  is_published: boolean;
   is_sold_out: boolean;
   available_this_week: boolean;
   stock_quantity: number | null;
@@ -75,7 +75,7 @@ export type Location = {
   map_url: string | null;
   phone: string | null;
   image_url: string | null;
-  hours_note: string | null;
+  hours_text: string | null;
   pickup_instructions: string | null;
   is_active: boolean;
   sort_order: number;
@@ -165,9 +165,12 @@ export type SiteSettings = {
   instagram_url: string | null;
   facebook_url: string | null;
   currency: string;
-  tax_rate: number;
-  payment_pay_at_pickup: boolean;
+  tax_rate_percent: number;
+  payment_pay_at_pickup_enabled: boolean;
   payment_stripe_enabled: boolean;
+  payment_methods_text: string | null;
+  pickup_policy: string | null;
+  discounts_enabled: boolean;
   announcement_text: string | null;
   announcement_href: string | null;
   seo_title: string | null;
