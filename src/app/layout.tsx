@@ -18,6 +18,14 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+/** "#3e2f25" -> "62 47 37" (RGB channel triplet used by Tailwind tokens). */
+function hexToRgbTriplet(hex: string): string | null {
+  const match = /^#?([0-9a-fA-F]{6})$/.exec(hex.trim());
+  if (!match) return null;
+  const value = parseInt(match[1], 16);
+  return `${(value >> 16) & 255} ${(value >> 8) & 255} ${value & 255}`;
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
   const title =
@@ -48,10 +56,22 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const settings = await getSettings();
-  // Brand color overrides from admin Settings (design tokens stay central)
+  // Brand color overrides from admin Settings (design tokens stay central).
+  // Keys are token names like "cocoa-soft" (or already-prefixed "--rk-cocoa-soft").
+  // Each hex override also updates its "-rgb" triplet so Tailwind opacity
+  // modifiers (e.g. border-cocoa/20) follow the new color too.
   const overrides = Object.entries(settings.brand_colors ?? {})
-    .filter(([k, v]) => k.startsWith("--rk-") && typeof v === "string")
-    .map(([k, v]) => `${k}: ${v};`)
+    .filter(
+      (entry): entry is [string, string] =>
+        typeof entry[1] === "string" && entry[1].length > 0,
+    )
+    .flatMap(([key, hex]) => {
+      const token = key.startsWith("--rk-") ? key : `--rk-${key}`;
+      const rgb = hexToRgbTriplet(hex);
+      return rgb
+        ? [`${token}: ${hex};`, `${token}-rgb: ${rgb};`]
+        : [`${token}: ${hex};`];
+    })
     .join(" ");
 
   return (

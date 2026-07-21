@@ -22,6 +22,22 @@
   --rk-cocoa: #3e2f25; /* dark brown text */
   --rk-cocoa-soft: #7a6a5d; /* secondary text */
 
+  /* RGB channel triplets for the same tokens — consumed by Tailwind so
+     opacity modifiers like border-cocoa/20 work. Keep in sync with the
+     hex values above (the admin panel updates both automatically). */
+  --rk-lavender-rgb: 143 147 201;
+  --rk-lavender-deep-rgb: 93 98 165;
+  --rk-cream-rgb: 250 246 239;
+  --rk-cream-deep-rgb: 241 234 221;
+  --rk-honey-rgb: 217 159 62;
+  --rk-honey-deep-rgb: 185 132 40;
+  --rk-olive-rgb: 107 127 79;
+  --rk-olive-soft-rgb: 238 241 230;
+  --rk-terracotta-rgb: 191 110 75;
+  --rk-terracotta-soft-rgb: 247 233 226;
+  --rk-cocoa-rgb: 62 47 37;
+  --rk-cocoa-soft-rgb: 122 106 93;
+
   /* Layout */
   --rk-radius: 8px;
   --rk-radius-lg: 12px;
