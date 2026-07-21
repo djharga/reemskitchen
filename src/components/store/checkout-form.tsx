@@ -43,7 +43,7 @@ export function CheckoutForm({
   } = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      customerNote: cart.orderNote || "",
+      notes: cart.orderNote || "",
       paymentMethod: "pay_at_pickup",
     },
   });
@@ -77,7 +77,7 @@ export function CheckoutForm({
         })),
       });
       if (result.ok) {
-        cart.clear();
+        cart.clearCart();
         router.push(
           `/order/${result.orderNumber}?email=${encodeURIComponent(values.email)}`,
         );
@@ -238,7 +238,7 @@ export function CheckoutForm({
             rows={3}
             className="input"
             placeholder="Allergies, pickup timing, special requests…"
-            {...register("customerNote")}
+            {...register("notes")}
           />
           {discountsEnabled ? (
             <div className="mt-4">
@@ -310,7 +310,7 @@ export function CheckoutForm({
           </h2>
           <ul className="flex flex-col gap-3">
             {cart.items.map((item) => (
-              <li key={item.key} className="flex items-center gap-3">
+              <li key={`${item.productId}-${item.variantId ?? "base"}`} className="flex items-center gap-3">
                 <div className="h-14 w-14 shrink-0 overflow-hidden rounded">
                   <ProductThumb name={item.name} imageUrl={item.imageUrl} />
                 </div>

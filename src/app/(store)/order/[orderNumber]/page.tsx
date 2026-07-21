@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { CheckCircle2, Clock, MapPin } from "lucide-react";
 import { getOrderForConfirmation } from "@/app/actions/orders";
 import { formatDate, formatPrice, formatTime } from "@/lib/utils";
+import type { OrderItem } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -73,7 +74,7 @@ export default async function OrderConfirmationPage({
         <div className="mt-6">
           <h2 className="mb-2 font-semibold">Your items</h2>
           <ul className="divide-y divide-cocoa/10 rounded-lg border border-cocoa/10">
-            {order.items.map((item) => (
+            {order.items.map((item: OrderItem) => (
               <li
                 key={item.id}
                 className="flex items-baseline justify-between gap-3 px-4 py-2.5 text-sm"

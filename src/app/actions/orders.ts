@@ -212,7 +212,7 @@ export async function getOrderForConfirmation(
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("orders")
-    .select("*, location:locations(*), items:order_items(*)")
+    .select("*, schedule:market_schedules(*, location:locations(*)), items:order_items(*)")
     .eq("order_number", orderNumber)
     .ilike("email", email)
     .maybeSingle();
