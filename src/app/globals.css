@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Design tokens — the single central place for brand values.
+   These can be overridden at runtime by the admin Settings page,
+   which injects a <style> tag with the same variable names.
+   ------------------------------------------------------------------ */
+:root {
+  /* Brand palette: Middle Eastern Home Kitchen x Calgary Farmers' Market */
+  --rk-lavender: #8f93c9; /* Lavender Blue — from the existing logo */
+  --rk-lavender-deep: #5d62a5; /* headings on cream, links, focus rings */
+  --rk-cream: #faf6ef; /* warm cream page background */
+  --rk-cream-deep: #f1eadd; /* soft surface / section alternation */
+  --rk-honey: #d99f3e; /* honey gold — primary buttons */
+  --rk-honey-deep: #b98428; /* button hover */
+  --rk-olive: #6b7f4f; /* olive green — vegan accents */
+  --rk-olive-soft: #eef1e6; /* vegan section background */
+  --rk-terracotta: #bf6e4b; /* warm details, sale price */
+  --rk-terracotta-soft: #f7e9e2;
+  --rk-cocoa: #3e2f25; /* dark brown text */
+  --rk-cocoa-soft: #7a6a5d; /* secondary text */
+
+  /* Layout */
+  --rk-radius: 8px;
+  --rk-radius-lg: 12px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  @apply bg-cream text-cocoa font-sans antialiased;
+}
+
+/* Accessible focus states */
+:focus-visible {
+  outline: 2px solid var(--rk-lavender-deep);
+  outline-offset: 2px;
+}
+
+/* Shared component classes */
+@layer components {
+  .container-rk {
+    @apply mx-auto w-full max-w-[1120px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-honey text-cocoa hover:bg-honey-deep hover:text-white;
+  }
+  .btn-secondary {
+    @apply btn border border-cocoa/20 bg-white text-cocoa hover:border-cocoa/40;
+  }
+  .btn-olive {
+    @apply btn bg-olive text-white hover:opacity-90;
+  }
+  .btn-ghost {
+    @apply btn text-cocoa hover:bg-cream-deep;
+  }
+
+  .input {
+    @apply w-full rounded border border-cocoa/20 bg-white px-3 py-2.5 text-sm text-cocoa placeholder:text-cocoa-soft/70 focus:border-lavender-deep focus:outline-none;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-cocoa;
+  }
+
+  .card {
+    @apply rounded-lg border border-cocoa/10 bg-white shadow-card;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .badge-vegan {
+    @apply badge bg-olive-soft text-olive;
+  }
+  .badge-vegetarian {
+    @apply badge bg-olive-soft text-olive;
+  }
+  .badge-soldout {
+    @apply badge bg-cocoa/10 text-cocoa-soft;
+  }
+  .badge-available {
+    @apply badge bg-terracotta-soft text-terracotta;
+  }
+
+  .section-title {
+    @apply font-display text-2xl font-semibold text-cocoa sm:text-3xl;
+  }
+  .section-eyebrow {
+    @apply mb-2 text-xs font-semibold uppercase tracking-widest text-terracotta;
+  }
+}
+
+/* Skeleton loading */
+.skeleton {
+  @apply animate-pulse rounded bg-cocoa/10;
+}
+
+/* Prevent layout shift: media wrappers always reserve space */
+.media-square {
+  @apply relative aspect-square w-full overflow-hidden rounded-lg bg-cream-deep;
+}
