@@ -3,7 +3,13 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { checkoutSchema, type CheckoutInput } from "@/lib/validation";
 import { isPreorderOpen } from "@/lib/utils";
-import type { DiscountCode } from "@/lib/types";
+import type {
+  DiscountCode,
+  Location,
+  MarketSchedule,
+  Order,
+  OrderItem,
+} from "@/lib/types";
 
 export type CreateOrderResult =
   { ok: true; orderNumber: string } | { ok: false; error: string };
@@ -205,16 +211,23 @@ export async function createOrder(
 }
 
 /** Loads an order for the success page (requires matching email). */
+export type OrderConfirmation = Order & {
+  schedule: (MarketSchedule & { location: Location | null }) | null;
+  items: OrderItem[];
+};
+
 export async function getOrderForConfirmation(
   orderNumber: string,
   email: string,
-) {
+): Promise<OrderConfirmation | null> {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("orders")
-    .select("*, location:locations(*), items:order_items(*)")
+    .select(
+      "*, schedule:market_schedules(*, location:locations(*)), items:order_items(*)",
+    )
     .eq("order_number", orderNumber)
     .ilike("email", email)
     .maybeSingle();
-  return data;
+  return (data as unknown as OrderConfirmation | null) ?? null;
 }
