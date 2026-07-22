@@ -63,6 +63,7 @@ export default async function AdminDashboard() {
       (byProduct.get(item.product_name) ?? 0) + item.quantity,
     );
   }
+  // Explicitly use Array.from() for MapIterator compatibility in JS/TS environments
   const topProducts = Array.from(byProduct.entries())
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
@@ -139,6 +140,7 @@ export default async function AdminDashboard() {
             <p className="text-sm text-cocoa-soft">No orders yet.</p>
           ) : (
             <ul className="divide-y divide-cocoa/10 text-sm">
+              {/* Explicitly use Array.from() for MapIterator compatibility in JS/TS environments */}
               {Array.from(byLocation.entries()).map(([name, count]) => (
                 <li
                   key={name}
