@@ -63,7 +63,7 @@ export default async function AdminDashboard() {
       (byProduct.get(item.product_name) ?? 0) + item.quantity,
     );
   }
-  const topProducts = [...byProduct.entries()]
+  const topProducts = Array.from(byProduct.entries())
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
