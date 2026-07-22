@@ -139,7 +139,7 @@ export default async function AdminDashboard() {
             <p className="text-sm text-cocoa-soft">No orders yet.</p>
           ) : (
             <ul className="divide-y divide-cocoa/10 text-sm">
-              {[...byLocation.entries()].map(([name, count]) => (
+              {Array.from(byLocation.entries()).map(([name, count]) => (
                 <li
                   key={name}
                   className="flex items-center justify-between py-2"
